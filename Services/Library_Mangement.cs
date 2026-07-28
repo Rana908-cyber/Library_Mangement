@@ -13,6 +13,7 @@ namespace Library.Services
         List<Book> books = new List<Book>();
         List<Member> members = new List<Member>();
         List<BorrowRecord> borrowRecords = new List<BorrowRecord>();
+        public Events Nlibrary { get; set; } = new Events();
         #region Boorow
         public void BorrowBook(int memberId, int bookId)
         {
@@ -171,10 +172,12 @@ namespace Library.Services
             {
                 throw new ArgumentException("copies must be greater than zero. ");
             }
+            Nlibrary.invoke($"Book Add Successfully");
+            Console.WriteLine("-----------------------------------------------------------------");
 
             books.Add(book);
         }
-        // Erorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+     
 
         public void UpdateBook(int id, string title, string author, string category, int totalCopies)
         {
@@ -200,11 +203,13 @@ namespace Library.Services
             book.Category = category;
             int d = book.TotalCopies;
             book.TotalCopies = totalCopies ;
-            int diff = totalCopies - d;
+            int diff = d-totalCopies ;
             if (diff > 0)
             {
                 book.AvailableCopies += diff;
             }
+            Console.WriteLine("-----------------------------------------------------------------");
+
         }
 
         public void DeleteBook(int id)
@@ -220,6 +225,7 @@ namespace Library.Services
             {
                 throw new Exception("cannot delete a borrowed book");
             }
+            Console.WriteLine("-----------------------------------------------------------------");
 
             books.Remove(book);
         }
@@ -228,6 +234,7 @@ namespace Library.Services
         {
             foreach (Book book in books)
             {
+                Console.WriteLine("-----------------------------Books------------------------------------");
                 Console.WriteLine($"ID: {book.Id}");
                 Console.WriteLine($"Title: {book.Title}");
                 Console.WriteLine($"Author: {book.Author}");
@@ -235,6 +242,8 @@ namespace Library.Services
                 Console.WriteLine($"Available Copies: {book.AvailableCopies}");
                 Console.WriteLine("------------------------------------------");
             }
+            Console.WriteLine("-----------------------------------------------------------------");
+
         }
 
         public List<Book> SearchBooks(string s)
@@ -244,6 +253,8 @@ namespace Library.Services
             b.Author.Contains(s, StringComparison.OrdinalIgnoreCase) ||
             b.Category.Contains(s, StringComparison.OrdinalIgnoreCase) ||
             b.ISBN.Contains(s, StringComparison.OrdinalIgnoreCase)).ToList();
+            Console.WriteLine("-----------------------------------------------------------------");
+
         }
 
         #endregion
@@ -253,26 +264,61 @@ namespace Library.Services
         {
             Console.Write("Enter ID: ");
             string nm = Console.ReadLine();
-            int Id = int.Parse(nm)!;
+            int Id = int.Parse(nm);
 
             Console.Write("Enter Full Name: ");
-            string FullName = Console.ReadLine()!;
+            string FullName = Console.ReadLine();
 
             Console.Write("Enter Phone: ");
-            string Phone = Console.ReadLine()!;
+            string Phone = Console.ReadLine();
 
             Console.Write("Enter Email: ");
-            string Email = Console.ReadLine()!;
+            string Email = Console.ReadLine();
             members.Add(new Member(Id, FullName, Phone, Email,DateTime.Now));
+            Nlibrary.invoke("$You Rigister To Library Ala Matofraggg !!!!!! ");
+            Console.WriteLine("-----------------------------------------------------------------");
+        }
+        public void UpdateMember()
+        {
+            Console.Write("Enter ID: ");
+            string nm = Console.ReadLine();
+            int Id = int.Parse(nm);
+            var c = members.FirstOrDefault(m => m.Id == Id);
+            if (c != null)
+            {
+                Console.Write("Enter New Full Name: ");
+                string FullName = Console.ReadLine();
+
+                Console.Write("Enter New Phone: ");
+                string Phone = Console.ReadLine();
+
+                Console.Write("Enter New Email: ");
+                string Email = Console.ReadLine();
+                c.FullName= FullName;
+                c.Phone= Phone;
+                c.Email= Email;
+                Nlibrary.invoke("$Your Data is Updata in Library Ala Matofraggg !!!!!! ");
+                Console.WriteLine("-----------------------------------------------------------------");
+
+            }
+            else
+            {
+                Console.WriteLine("Member Not Found");
+            }
+
         }
 
         public void DisplayMembers()
         {
+            Console.WriteLine("-------------------------Members----------------------------------------");
+
             foreach (Member member in members)
             {
                 member.DisplayInfo();
                 Console.WriteLine("----------------------");
             }
+            Console.WriteLine("-----------------------------------------------------------------");
+
         }
         public void DeleteMember()
         {
@@ -290,12 +336,14 @@ namespace Library.Services
             if (member != null)
             {
                 members.Remove(member);
-                Console.WriteLine("Member Deleted Successfully.");
+                Nlibrary.invoke("Member Deleted Successfully.");
             }
             else
             {
                 Console.WriteLine("Member Not Found.");
             }
+            Console.WriteLine("-----------------------------------------------------------------");
+
         }
         #endregion
 
