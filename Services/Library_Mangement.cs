@@ -253,6 +253,7 @@ namespace Library.Services
             b.Author.Contains(s, StringComparison.OrdinalIgnoreCase) ||
             b.Category.Contains(s, StringComparison.OrdinalIgnoreCase) ||
             b.ISBN.Contains(s, StringComparison.OrdinalIgnoreCase)).ToList();
+
             Console.WriteLine("-----------------------------------------------------------------");
 
         }

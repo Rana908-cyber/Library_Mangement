@@ -120,7 +120,25 @@ namespace Library
                         Console.Write("Enter Book Title");
                         string title = Console.ReadLine();
                         if(Validation.IsValidString(title))
-                        library.SearchBooks(title);
+                     { 
+                            var resultBooks = library.SearchBooks(title);
+
+                            if (resultBooks.Count > 0)
+                            {
+                                Console.WriteLine($"Found {resultBooks.Count} book(s):");
+                                Console.WriteLine("--------------------------------------------------");
+
+                                foreach (var book in resultBooks)
+                                {
+                                    Console.WriteLine($"ID: {book.Id} | Title: {book.Title} | Author: {book.Author} | Category: {book.Category} | Year: {book.PublishedYear}");
+                                }
+                                Console.WriteLine("--------------------------------------------------");
+                            }
+                            else
+                            {
+                                Console.WriteLine("No books found matching your search.");
+                            }
+                        }
                         else Console.WriteLine("Invalid Title");
                     }
                     
