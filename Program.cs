@@ -1,5 +1,6 @@
 ﻿using Library.Models;
 using Library.Services;
+using Library.Utilities;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
@@ -33,6 +34,7 @@ namespace Library
             List<Book> books = new List<Book>();
             List<Member> members = new List<Member>();
             List<BorrowRecord> borrowRecords = new List<BorrowRecord>();
+            Validation v =new Validation();
 
             bool f = true;
             while (f)
@@ -56,7 +58,7 @@ namespace Library
                     if (c2 == 1)
                     {
                         Console.Write("Enter Book ID");
-                        int id = int.Parse(Console.ReadLine());
+                        string id = Console.ReadLine();
                         Console.Write("Enter Book Title");
                         string title = Console.ReadLine();
                         Console.Write("Enter Author Name");
@@ -69,12 +71,18 @@ namespace Library
                         int publishedYear = int.Parse(Console.ReadLine());
                         Console.Write("Enter Total Copies");
                         int totalCopies = int.Parse(Console.ReadLine());
-                        library.AddBook(new Book(id, title, author, category, isbn, publishedYear, totalCopies));
+                        if (Validation.IsValidId(id) && Validation.IsValidString(title) && Validation.IsValidString(author) && Validation.IsValidString(category) && Validation.IsValidString(isbn) && Validation.IsValidYear(publishedYear))
+                        {
+                           int nm = int.Parse(id);
+                            
+                            library.AddBook(new Book(nm, title, author, category, isbn, publishedYear, totalCopies));
+                        }
+                        else Console.WriteLine("Invalid Data");
                     }
                     else if (c2 == 2)
                     {
                         Console.Write("Enter Book ID");
-                        int id = int.Parse(Console.ReadLine());
+                        string id = Console.ReadLine();
                         Console.Write("Enter Book Title");
                         string title = Console.ReadLine();
                         Console.Write("Enter Author Name");
@@ -83,13 +91,24 @@ namespace Library
                         string category = Console.ReadLine();
                         Console.Write("Enter Total Copies");
                         int totalCopies = int.Parse(Console.ReadLine());
-                        library.UpdateBook(id, title, author, category, totalCopies);
+                        if (Validation.IsValidId(id) && Validation.IsValidString(title) && Validation.IsValidString(author) && Validation.IsValidString(category) )
+
+                           {
+                            int nm = int.Parse(id);
+                            library.UpdateBook(nm, title, author, category, totalCopies); }
+                        else Console.WriteLine("Invalid Data");
+
                     }
                     else if (c2 == 3)
                     {
                         Console.Write("Enter Book ID");
-                        int id = int.Parse(Console.ReadLine());
-                        library.DeleteBook(id);
+                        string id = Console.ReadLine();
+                        if (Validation.IsValidId(id)) { 
+                        int nm = int.Parse(id);
+                        
+                            library.DeleteBook(nm);
+                        }
+                        else Console.WriteLine("Invalid ID");
 
                     }
                     else if (c2 == 4)
@@ -100,7 +119,9 @@ namespace Library
                     {
                         Console.Write("Enter Book Title");
                         string title = Console.ReadLine();
+                        if(Validation.IsValidString(title))
                         library.SearchBooks(title);
+                        else Console.WriteLine("Invalid Title");
                     }
                     
                     else
@@ -109,7 +130,7 @@ namespace Library
                         Console.WriteLine("chosse Again ");
                     }
                 }
-                if (c == 2)
+                else if (c == 2)
                 {
                     Console.WriteLine("What would you like to do ?!");
                     Console.WriteLine($" 1 : Register Member ");
@@ -139,7 +160,7 @@ namespace Library
                         Console.WriteLine("chosse Again ");
                     }
                 }
-                if (c == 3)
+                else if (c == 3)
                 {
                     Console.WriteLine("What would you like to do ?!");
                     Console.WriteLine($" 1 : Borrow Book ");
@@ -151,18 +172,31 @@ namespace Library
                     if (c2 == 1)
                     {
                         Console.WriteLine("Enter Your Member Id");
-                        int id = int.Parse(Console.ReadLine());
+                        string id = Console.ReadLine();
                         Console.WriteLine("Enter Your Book Id");
-                        int id2 = int.Parse(Console.ReadLine());
-                        library.BorrowBook(id, id2);
+                        string id2 = Console.ReadLine();
+                        if (Validation.IsValidId(id) && Validation.IsValidId(id2))
+                        {
+                            int nm = int.Parse(id);
+                            int nm2 = int.Parse(id2);
+
+                            library.BorrowBook(nm, nm2);
+                        }
+                        else Console.WriteLine("Invalid Ids");
                     }
                     else if (c2 == 2)
                     {
                         Console.WriteLine("Enter Your Member Id");
-                        int id = int.Parse(Console.ReadLine());
+                        string id = Console.ReadLine();
                         Console.WriteLine("Enter Your Book Id");
-                        int id2 = int.Parse(Console.ReadLine());
-                        library.ReturnBook(id, id2);
+                        string id2 = Console.ReadLine();
+                        if (Validation.IsValidId(id) && Validation.IsValidId(id2))
+                         {
+                            int nm = int.Parse(id);
+                            int nm2 = int.Parse(id2);
+
+                            library.ReturnBook(nm, nm2); }
+                        else Console.WriteLine("Invalid Ids");
                     }
                     else if (c2 == 3)
                     {

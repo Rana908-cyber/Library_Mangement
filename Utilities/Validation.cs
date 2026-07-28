@@ -14,11 +14,14 @@ namespace Library.Utilities
         return (!string.IsNullOrEmpty(s) && !string.IsNullOrWhiteSpace(s));
     }
 
-    public static bool IsValidId(string s, int id)
+    public static bool IsValidId(string s)
     {
-        return (id>0 && s.All(d=> d>='0' && d<='9') && !string.IsNullOrEmpty(s));
+        return (s.All(d=> d>='0' && d<='9') && !string.IsNullOrEmpty(s));
     }
+        public static bool IsValidYear(int year)
+        {
+            return  year <= DateTime.Now.Year;
+        }
 
-         
     }
 }
